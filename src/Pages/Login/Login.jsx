@@ -18,18 +18,8 @@ const Login = () => {
     signInUser(email, password)
       .then((result) => {
         console.log(result.user);
-        const user = { email };
 
-        // get access token
-        axios
-          .post("http://localhost:3000/jwt", user, { withCredentials: true })
-          .then((res) => {
-            console.log(res.data);
-            alert("successfully login");
-            if (res.data.success) {
-              navigate(location?.state ? location.state : "/");
-            }
-          });
+        navigate(location?.state ? location.state : "/");
       })
       .catch((error) => console.log(error.message));
   };

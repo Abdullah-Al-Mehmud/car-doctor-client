@@ -32,7 +32,9 @@ const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: ({ params }) =>
-          fetch(`http://localhost:3000/services/${params.id}`),
+          fetch(
+            `https://car-doctor-server-delta-seven.vercel.app/services/${params.id}`
+          ),
       },
       {
         path: "/bookings",

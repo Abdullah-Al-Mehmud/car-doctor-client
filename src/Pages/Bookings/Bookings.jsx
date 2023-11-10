@@ -2,22 +2,25 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../Provider/AuthProvider/AuthProvider";
 import BookingTable from "./BookingTable";
 import Swal from "sweetalert2";
-import axios from "axios";
+
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
 
 const Bookings = () => {
   const { user } = useContext(AuthContext);
   const [bookings, setBookings] = useState([]);
+  const axiosSecure = useAxiosSecure();
+
   console.log(bookings);
-  const url = `http://localhost:3000/bookings?email=${user?.email}`;
+  const url = `/bookings?email=${user?.email}`;
   useEffect(() => {
-    axios.get(url, { withCredentials: true }).then((res) => {
+    axiosSecure.get(url).then((res) => {
       setBookings(res.data);
     });
 
     // fetch(url)
     //   .then((res) => res.json())
     //   .then((data) => setBookings(data));
-  }, [url]);
+  }, [url, axiosSecure]);
 
   const handleDelete = (id) => {
     Swal.fire({
@@ -30,9 +33,12 @@ const Bookings = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:3000/bookings/${id}`, {
-          method: "DELETE",
-        })
+        fetch(
+          `https://car-doctor-server-delta-seven.vercel.app/bookings/${id}`,
+          {
+            method: "DELETE",
+          }
+        )
           .then((res) => res.json())
           .then((data) => {
             console.log(data);
@@ -49,7 +55,7 @@ const Bookings = () => {
   };
 
   const handleConfirm = (id) => {
-    fetch(`http://localhost:3000/bookings/${id}`, {
+    fetch(`https://car-doctor-server-delta-seven.vercel.app/bookings/${id}`, {
       method: "PATCH",
       headers: {
         "content-type": "application/json",

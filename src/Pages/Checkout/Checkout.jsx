@@ -29,7 +29,7 @@ const Checkout = () => {
     console.log(order);
 
     // send order to backend
-    fetch("http://localhost:3000/bookings", {
+    fetch("https://car-doctor-server-delta-seven.vercel.app/bookings", {
       method: "POST",
       headers: {
         "content-type": "application/json",
